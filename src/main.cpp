@@ -32,18 +32,21 @@ int main()
 {
   uWS::Hub h;
 
-  double ku = 0.06;
+  double ku = 0.07;
 
   PID pid;
   // TODO: consider initializing a pid for speed too
 
   double Kp = 2.9 * ku;
   double Ki = ku / (100.0);
-  double Kd = ku * (200.0 / 8.0);
+  double Kd = ku * (300.0 / 3.0);
+
+  int runs = 0;
+  double avg_cte = 1;
 
   pid.Init(Kp, Ki, Kd);
 
-  h.onMessage([&pid](uWS::WebSocket<uWS::SERVER> ws, char *data,
+  h.onMessage([&pid, &runs, &avg_cte](uWS::WebSocket<uWS::SERVER> ws, char *data,
                      size_t length, uWS::OpCode opCode) {
     // "42" at the start of the message means there's a websocket message event.
     // The 4 signifies a websocket message
@@ -65,8 +68,14 @@ int main()
           * another PID controller to control the speed!
           */
 
-          pid.UpdateError(0.0 - cte);
-          steer_value = pid.TotalError() + 1;
+          avg_cte = (runs + abs(cte))*avg_cte / (runs + 1);
+          runs = runs + 1;
+
+          std::cout << "Runs: " << runs << std::endl;
+          std::cout << "Avg CTE: " << avg_cte << std::endl;
+
+          pid.UpdateError(-cte);
+          steer_value = pid.TotalError();
 
           // Consider using another pid for the speed
 

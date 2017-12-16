@@ -19,9 +19,6 @@ public:
   double Kp;
   double Ki;
   double Kd;
-
-  double control;
-
   /*
   * Constructor
   */

@@ -96,3 +96,106 @@ still be compilable with cmake and make./
 ## How to write a README
 A well written README file can enhance your project and portfolio.  Develop your abilities to create professional README files by completing [this free course](https://www.udacity.com/course/writing-readmes--ud777).
 
+## Tune parameters
+
+  double Kp = 2.9 * ku;
+  double Ki = ku / (100.0);
+  double Kd = ku * (200.0 / 8.0);
+Runs: 2661
+Avg CTE: 0.0288258
+
+  double Kp = 1.9 * ku;
+  double Ki = ku / (100.0);
+  double Kd = ku * (200.0 / 8.0);
+Runs: 2462
+Avg CTE: 0.0416524
+
+  double Kp = 2.5 * ku;
+  double Ki = ku / (100.0);
+  double Kd = ku * (200.0 / 8.0);
+Runs: 2408
+Avg CTE: 0.0316567
+
+  double Kp = 2.9 * ku;
+  double Ki = ku / (200.0);
+  double Kd = ku * (200.0 / 8.0);
+off track imidiatly
+
+  double Kp = 2.9 * ku;
+  double Ki = ku / (50.0);
+  double Kd = ku * (200.0 / 8.0);
+Runs: 2437
+Avg CTE: 0.0347172
+
+  double Kp = 2.9 * ku;
+  double Ki = ku / (100.0);
+  double Kd = ku * (100.0 / 8.0);
+huge oscilation
+
+  double Kp = 2.9 * ku;
+  double Ki = ku / (100.0);
+  double Kd = ku * (400.0 / 8.0);
+Runs: 2405
+Avg CTE: 0.0247625
+
+  double Kp = 2.9 * ku;
+  double Ki = ku / (100.0);
+  double Kd = ku * (800.0 / 8.0);
+Runs: 2467
+Avg CTE: 0.0209387
+bettter avg cte but too rough turns
+
+
+  double Kp = 2.9 * ku;
+  double Ki = ku / (100.0);
+  double Kd = ku * (600.0 / 8.0);
+Runs: 2395
+Avg CTE: 0.0248945
+still big oscilation
+
+  double Kp = 2.9 * ku;
+  double Ki = ku / (100.0);
+  double Kd = ku * (300.0 / 8.0);
+Runs: 2375
+Avg CTE: 0.0245044
+
+  double Kp = 2.9 * ku;
+  double Ki = ku / (100.0);
+  double Kd = ku * (300.0 / 4.0);
+Runs: 2474
+Avg CTE: 0.0237836
+
+  double Kp = 2.9 * ku;
+  double Ki = ku / (100.0);
+  double Kd = ku * (300.0 / 3.0);
+Runs: 2498
+Avg CTE: 0.0224195
+
+  double Kp = 2.9 * ku;
+  double Ki = ku / (100.0);
+  double Kd = ku * (300.0 / 2.0);
+Runs: 2569
+Avg CTE: 0.0251381
+
+  double Kp = 2.9 * ku;
+  double Ki = ku / (100.0);
+  double Kd = ku * (300.0 / 3.0);
+
+now tunning ku
+
+  double ku = 0.06;
+Avg CTE: 0.0224195
+
+  double ku = 0.03;
+Avg CTE: 0.0395097
+
+  double ku = 0.09;
+Avg CTE: 0.0204704
+perhaps too oscilating
+
+  double ku = 0.12;
+Avg CTE: 0.0185899
+too much oscilation
+
+  double ku = 0.07;
+Avg CTE: 0.0189136
