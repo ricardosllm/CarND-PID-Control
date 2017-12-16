@@ -10,12 +10,17 @@ public:
   double i_error;
   double d_error;
 
+  double prev_error;
+  double *d_buffer;
+  double d_sum;
   /*
   * Coefficients
-  */ 
+  */
   double Kp;
   double Ki;
   double Kd;
+
+  double control;
 
   /*
   * Constructor
