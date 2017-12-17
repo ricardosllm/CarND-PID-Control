@@ -1,4 +1,4 @@
-# CarND-Controls-PID
+# CarND PID Controller
 
 ![alt text](results/CarND-PiD.mp4.gif "Result")
 
