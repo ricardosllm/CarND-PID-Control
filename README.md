@@ -1,6 +1,15 @@
 # CarND-Controls-PID
-Self-Driving Car Engineer Nanodegree Program
 
+## The Project
+
+In this project we'll revisit the lake race track from the [Behavioral Cloning Project](https://github.com/ricardosllm/CarND-Behavioral-Cloning). 
+This time, however, we'll implement a PID controller in C++ to maneuver the vehicle around the track.
+
+The simulator will provide you the cross track error (CTE) and the velocity (mph) in order to compute the appropriate steering angle.
+
+The project is considered successfully completed if the following is met:
+
+`No tire may leave the drivable portion of the track surface. The car may not pop up onto ledges or roll over any surfaces that would otherwise be considered unsafe (if humans were in the vehicle).`
 
 ## Tuning hyperparameters
 
