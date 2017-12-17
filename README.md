@@ -1,6 +1,55 @@
 # CarND-Controls-PID
 Self-Driving Car Engineer Nanodegree Program
 
+
+## Tuning hyperparameters
+
+I took an iterative approch to tunning the hyperparameters. Started with a set of candidate values based on the lectures and literature found online and proceeded to iteratively change one param and observe the results.
+To help my decision I've calculated the absolute average CTE at the 1 lap mark. 
+```c++
+avg_cte = (runs + abs(cte))*avg_cte / (runs + 1);
+runs = runs + 1;
+
+std::cout << "Runs: " << runs << std::endl;
+std::cout << "Avg CTE: " << avg_cte << std::endl;
+```
+The following tables show the results and chosen values.
+
+Formula with starting values
+```c++
+  double Kp = 2.5 * ku;
+  double Ki = ku / (100.0);
+  double Kd = ku * (200.0 / 8.0);
+```
+> Bold indicates param change being evaluated
+
+| Kp | Ki | Kd | Avg CTE | Observation | 
+|----|----|----|---------|-------------|
+| 2.5| 100| 200 / 8 | 0.0316567 | |
+| **2.9**| 100| 200 / 8 | 0.0288258 | |
+| **1.9**| 100| 200 / 8 | 0.0416524 | |
+| 2.9| **200**| 200 / 8 |  | of track immediately|
+| 2.9| **50**| 200 / 8 | 0.0347172 | |
+| 2.9| 100| **100** / 8 | | huge oscillation |
+| 2.9| 100| **400** / 8 | 0.0247625 | |
+| 2.9| 100| **800** / 8 | 0.0209387 | bettter avg cte but too rough turns |
+| 2.9| 100| **600** / 8 | 0.0248945 | still big oscillation |
+| 2.9| 100| **300** / 8 | 0.0245044 | much better |
+| 2.9| 100| 300 / **4** | 0.0237836 | |
+| 2.9| 100| 300 / **3** | 0.0224195 | |
+| 2.9| 100| 300 / **2** | 0.0251381 | |
+| 2.9| 100| 300 / 3 | 0.0224195 | **Chosen values** |
+
+> Now tunning ku
+
+| ku | Avg CTE | Observations |
+|----|---------|--------------|
+|0.06|0.0224195| Starting value|
+|0.03|0.0395097| avg CTE too high |
+|0.09|0.0204704|perhaps too oscillating|
+|0.12|0.0185899|too much oscillation|
+|0.07|0.0189136| **Chosen value**|
+
 ---
 
 ## Dependencies
@@ -37,165 +86,7 @@ There's an experimental patch for windows in this [PR](https://github.com/udacit
 
 Tips for setting up your environment can be found [here](https://classroom.udacity.com/nanodegrees/nd013/parts/40f38239-66b6-46ec-ae68-03afd8a601c8/modules/0949fca6-b379-42af-a919-ee50aa304e6a/lessons/f758c44c-5e40-4e01-93b5-1a82aa4e044f/concepts/23d376c7-0195-4276-bdf0-e02f1f3c665d)
 
-## Editor Settings
-
-We've purposefully kept editor configuration files out of this repo in order to
-keep it as simple and environment agnostic as possible. However, we recommend
-using the following settings:
-
-* indent using spaces
-* set tab width to 2 spaces (keeps the matrices in source code aligned)
-
 ## Code Style
 
 Please (do your best to) stick to [Google's C++ style guide](https://google.github.io/styleguide/cppguide.html).
 
-## Project Instructions and Rubric
-
-Note: regardless of the changes you make, your project must be buildable using
-cmake and make!
-
-More information is only accessible by people who are already enrolled in Term 2
-of CarND. If you are enrolled, see [the project page](https://classroom.udacity.com/nanodegrees/nd013/parts/40f38239-66b6-46ec-ae68-03afd8a601c8/modules/f1820894-8322-4bb3-81aa-b26b3c6dcbaf/lessons/e8235395-22dd-4b87-88e0-d108c5e5bbf4/concepts/6a4d8d42-6a04-4aa6-b284-1697c0fd6562)
-for instructions and the project rubric.
-
-## Hints!
-
-* You don't have to follow this directory structure, but if you do, your work
-  will span all of the .cpp files here. Keep an eye out for TODOs.
-
-## Call for IDE Profiles Pull Requests
-
-Help your fellow students!
-
-We decided to create Makefiles with cmake to keep this project as platform
-agnostic as possible. Similarly, we omitted IDE profiles in order to we ensure
-that students don't feel pressured to use one IDE or another.
-
-However! I'd love to help people get up and running with their IDEs of choice.
-If you've created a profile for an IDE that you think other students would
-appreciate, we'd love to have you add the requisite profile files and
-instructions to ide_profiles/. For example if you wanted to add a VS Code
-profile, you'd add:
-
-* /ide_profiles/vscode/.vscode
-* /ide_profiles/vscode/README.md
-
-The README should explain what the profile does, how to take advantage of it,
-and how to install it.
-
-Frankly, I've never been involved in a project with multiple IDE profiles
-before. I believe the best way to handle this would be to keep them out of the
-repo root to avoid clutter. My expectation is that most profiles will include
-instructions to copy files to a new location to get picked up by the IDE, but
-that's just a guess.
-
-One last note here: regardless of the IDE used, every submitted project must
-still be compilable with cmake and make./
-
-## How to write a README
-A well written README file can enhance your project and portfolio.  Develop your abilities to create professional README files by completing [this free course](https://www.udacity.com/course/writing-readmes--ud777).
-
-## Tune parameters
-
-  double Kp = 2.9 * ku;
-  double Ki = ku / (100.0);
-  double Kd = ku * (200.0 / 8.0);
-Runs: 2661
-Avg CTE: 0.0288258
-
-  double Kp = 1.9 * ku;
-  double Ki = ku / (100.0);
-  double Kd = ku * (200.0 / 8.0);
-Runs: 2462
-Avg CTE: 0.0416524
-
-  double Kp = 2.5 * ku;
-  double Ki = ku / (100.0);
-  double Kd = ku * (200.0 / 8.0);
-Runs: 2408
-Avg CTE: 0.0316567
-
-  double Kp = 2.9 * ku;
-  double Ki = ku / (200.0);
-  double Kd = ku * (200.0 / 8.0);
-off track imidiatly
-
-  double Kp = 2.9 * ku;
-  double Ki = ku / (50.0);
-  double Kd = ku * (200.0 / 8.0);
-Runs: 2437
-Avg CTE: 0.0347172
-
-  double Kp = 2.9 * ku;
-  double Ki = ku / (100.0);
-  double Kd = ku * (100.0 / 8.0);
-huge oscilation
-
-  double Kp = 2.9 * ku;
-  double Ki = ku / (100.0);
-  double Kd = ku * (400.0 / 8.0);
-Runs: 2405
-Avg CTE: 0.0247625
-
-  double Kp = 2.9 * ku;
-  double Ki = ku / (100.0);
-  double Kd = ku * (800.0 / 8.0);
-Runs: 2467
-Avg CTE: 0.0209387
-bettter avg cte but too rough turns
-
-
-  double Kp = 2.9 * ku;
-  double Ki = ku / (100.0);
-  double Kd = ku * (600.0 / 8.0);
-Runs: 2395
-Avg CTE: 0.0248945
-still big oscilation
-
-  double Kp = 2.9 * ku;
-  double Ki = ku / (100.0);
-  double Kd = ku * (300.0 / 8.0);
-Runs: 2375
-Avg CTE: 0.0245044
-
-  double Kp = 2.9 * ku;
-  double Ki = ku / (100.0);
-  double Kd = ku * (300.0 / 4.0);
-Runs: 2474
-Avg CTE: 0.0237836
-
-  double Kp = 2.9 * ku;
-  double Ki = ku / (100.0);
-  double Kd = ku * (300.0 / 3.0);
-Runs: 2498
-Avg CTE: 0.0224195
-
-  double Kp = 2.9 * ku;
-  double Ki = ku / (100.0);
-  double Kd = ku * (300.0 / 2.0);
-Runs: 2569
-Avg CTE: 0.0251381
-
-  double Kp = 2.9 * ku;
-  double Ki = ku / (100.0);
-  double Kd = ku * (300.0 / 3.0);
-
-now tunning ku
-
-  double ku = 0.06;
-Avg CTE: 0.0224195
-
-  double ku = 0.03;
-Avg CTE: 0.0395097
-
-  double ku = 0.09;
-Avg CTE: 0.0204704
-perhaps too oscilating
-
-  double ku = 0.12;
-Avg CTE: 0.0185899
-too much oscilation
-
-  double ku = 0.07;
-Avg CTE: 0.0189136
